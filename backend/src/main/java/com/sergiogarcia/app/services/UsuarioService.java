@@ -23,7 +23,7 @@ public class UsuarioService {
     }
 
     public void deleteUsuario(Long id, Usuario currentUser) throws Exception {
-        if (!id.equals(currentUser.getId_usuario())) {
+        if (!id.equals(currentUser.getId())) {
             throw new Exception("No tienes permiso para eliminar este usuario");
         }
         usuarioRepository.deleteById(id);

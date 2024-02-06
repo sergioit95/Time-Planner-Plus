@@ -1,54 +1,140 @@
 package com.sergiogarcia.app.models;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Parameter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Usuario")
-public class Usuario {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EntityListeners(AuditingEntityListener.class)
+public class Usuario implements UserDetails{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_usuario;
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+			name = "UUID",
+			strategy = "org.hibernate.id.UUIDGenerator",
+			parameters = {
+					@Parameter(
+							name = "uuid_gen_strategy_class",
+							value = "org.hibernate.id.uuid.CustomVersionOneStrategy")
+			})
+	
+	@Column(columnDefinition = "uuid")
+	private UUID id;
+	
+	@NaturalId
+	@Column(unique = true, updatable = false)
+	private String nombreUsuario;
+	
+	private String contrasena;
 	
 	private String nombre;
+	
 	private String apellidos;
-	private String email;
-	private String contrasena;
-	public Long getId_usuario() {
-		return id_usuario;
+
+	
+	@Builder.Default
+	private boolean cuentaNoExpirada = true;
+	
+	@Builder.Default
+	private boolean cuentaNoBloqueada = true;
+	
+	@Builder.Default
+	private boolean credencialesNoExpiradas = true;
+	
+	@Builder.Default
+	private boolean cuentaHabilitada = true;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<RolUsuario> roles;
+	
+	@CreatedDate
+	private LocalDateTime creadoEn;
+	
+	@Builder.Default
+	private LocalDateTime ultimoCambioContrasena = LocalDateTime.now(); 
+	
+	public String getNombreUsuario() {
+		return nombreUsuario;
 	}
-	public void setId_usuario(Long id_usuario) {
-		this.id_usuario = id_usuario;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getApellidos() {
-		return apellidos;
-	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
 	public String getContrasena() {
 		return contrasena;
 	}
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
 	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return roles.stream()
+				.map(rol -> "ROL_" + rol)
+				.map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return cuentaNoExpirada;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return cuentaNoBloqueada;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return credencialesNoExpiradas;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return cuentaHabilitada;
+	}
 	
 
 }

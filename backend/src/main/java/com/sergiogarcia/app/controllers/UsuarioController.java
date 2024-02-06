@@ -14,7 +14,7 @@ import com.sergiogarcia.app.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/usuarios")
-public class UsuarioController {
+public class UsuarioController {	
     private final UsuarioService usuarioService;
 
     @Autowired
