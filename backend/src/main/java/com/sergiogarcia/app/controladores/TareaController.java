@@ -1,4 +1,4 @@
-package com.sergiogarcia.app.controllers;
+package com.sergiogarcia.app.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sergiogarcia.app.models.Tarea;
-import com.sergiogarcia.app.models.Usuario;
-import com.sergiogarcia.app.services.TareaService;
-import com.sergiogarcia.app.services.UsuarioService;
-
+import com.sergiogarcia.app.modelos.Tarea;
+import com.sergiogarcia.app.modelos.Usuario;
+import com.sergiogarcia.app.servicios.TareaService;
+import com.sergiogarcia.app.servicios.ServicioUsuario;
+/*
 @RestController
 @RequestMapping("/api/tareas")
 public class TareaController {
     private final TareaService tareaService;
-    private final UsuarioService usuarioService;
+    private final ServicioUsuario usuarioService;
 
     @Autowired
-    public TareaController(TareaService tareaService, UsuarioService usuarioService) {
+    public TareaController(TareaService tareaService, ServicioUsuario usuarioService) {
         this.tareaService = tareaService;
         this.usuarioService = usuarioService;
     }
@@ -41,4 +41,4 @@ public class TareaController {
     public void deleteTarea(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) throws Exception {
         tareaService.deleteTarea(id, usuario);
     }
-}
+}*/

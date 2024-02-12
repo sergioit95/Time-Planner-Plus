@@ -1,4 +1,4 @@
-package com.sergiogarcia.app.controllers;
+package com.sergiogarcia.app.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sergiogarcia.app.models.Usuario;
-import com.sergiogarcia.app.services.UsuarioService;
-
+import com.sergiogarcia.app.modelos.Usuario;
+import com.sergiogarcia.app.servicios.ServicioUsuario;
+/*
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {	
-    private final UsuarioService usuarioService;
+    private final ServicioUsuario usuarioService;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(ServicioUsuario usuarioService) {
         this.usuarioService = usuarioService;
     }
 
@@ -31,4 +31,5 @@ public class UsuarioController {
     public void deleteUsuario(@PathVariable Long id, @AuthenticationPrincipal Usuario currentUser) throws Exception {
         usuarioService.deleteUsuario(id, currentUser);
     }
-}
+    
+}*/

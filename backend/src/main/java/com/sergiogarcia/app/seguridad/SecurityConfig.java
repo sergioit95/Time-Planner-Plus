@@ -1,4 +1,4 @@
-package com.sergiogarcia.app.security;
+package com.sergiogarcia.app.seguridad;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
-
+/*
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -40,5 +40,5 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/h2-console/**", "/auth/register");
     }
-}
+}*/
 

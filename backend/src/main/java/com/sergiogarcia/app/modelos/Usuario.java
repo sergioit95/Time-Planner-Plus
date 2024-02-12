@@ -1,4 +1,4 @@
-package com.sergiogarcia.app.models;
+package com.sergiogarcia.app.modelos;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -19,6 +19,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +32,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name="Usuario")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -48,17 +51,20 @@ public class Usuario implements UserDetails{
 							value = "org.hibernate.id.uuid.CustomVersionOneStrategy")
 			})
 	
-	@Column(columnDefinition = "uuid")
+	@Column(name = "id", columnDefinition = "BINARY(16)")
 	private UUID id;
 	
 	@NaturalId
-	@Column(unique = true, updatable = false)
+	@Column(name ="nombre_usuario", unique = true, updatable = false)
 	private String nombreUsuario;
 	
+	@Column(name = "contrasena", nullable = false)
 	private String contrasena;
 	
+	@Column(name = "nombre", nullable = false)
 	private String nombre;
 	
+	@Column(name = "apellidos", nullable = false)
 	private String apellidos;
 
 	
@@ -75,6 +81,8 @@ public class Usuario implements UserDetails{
 	private boolean cuentaHabilitada = true;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
+	@Column(name = "rol")
+	@Enumerated(EnumType.STRING)
 	private Set<RolUsuario> roles;
 	
 	@CreatedDate

@@ -1,4 +1,4 @@
-package com.sergiogarcia.app.models;
+package com.sergiogarcia.app.modelos;
 
 public enum RolUsuario {
 
