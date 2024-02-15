@@ -72,13 +72,9 @@ public class ServicioUsuario {
 	}
 	
 	public void eliminarUsuarioPorId(UUID id) {
-		if(repositorioUsuario.existsById(id)) {			
-		}else {
-			repositorioUsuario.deleteById(id);	
+		if(repositorioUsuario.existsById(id)) {
+			repositorioUsuario.deleteById(id);
 		}
 	}
 	
-	public void eliminarUsuario(Usuario usuario) {
-		eliminarUsuarioPorId(usuario.getId());
-	}
 }

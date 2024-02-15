@@ -25,6 +25,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -85,6 +86,9 @@ public class Usuario implements UserDetails{
 	@Enumerated(EnumType.STRING)
 	private Set<RolUsuario> roles;
 	
+	@OneToMany(mappedBy = "usuario")
+    private Set<Tarea> tareas;
+	
 	@CreatedDate
 	private LocalDateTime creadoEn;
 	
@@ -111,13 +115,13 @@ public class Usuario implements UserDetails{
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return null;
+		return contrasena;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return null;
+		return nombreUsuario;
 	}
 
 	@Override
