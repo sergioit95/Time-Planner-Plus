@@ -81,7 +81,7 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 		http.headers().frameOptions().disable();
 		
 		
-		return null;
+		return http.build();
 				
 	}
 }
