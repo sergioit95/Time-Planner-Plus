@@ -3,6 +3,7 @@ package com.sergiogarcia.app.seguridad.jwt;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
@@ -79,5 +80,11 @@ public class JwtProvider {
 			log.info("Error con el token "+ex.getMessage());
 		}
 		return false;
+	}
+	
+	public UUID obtenerIdUsuarioDeTokenJwt(String token) {
+		return UUID.fromString(
+					jwtParser.parseClaimsJws(token).getBody().getSubject()
+				);
 	}
 }

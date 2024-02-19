@@ -14,9 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.sergiogarcia.app.seguridad.errorhandling.JwtAccessDeniedHandler;
 import com.sergiogarcia.app.seguridad.errorhandling.JwtAuthenticationEntryPoint;
+import com.sergiogarcia.app.seguridad.jwt.JwtAuthenticationFilter;
+import com.sergiogarcia.app.seguridad.jwt.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +32,7 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 	private final PasswordEncoder passwordEncoder;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	
 	public AuthenticationManager authenticationManager(HttpSecurity http) 
 		throws Exception {
@@ -76,7 +80,8 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 				.requestMatchers("/tareas/**").hasRole("USER")
 				.requestMatchers("autenticacion/registro/admin").hasRole("ADMIN")
 				.anyRequest().authenticated();
-		//http.addFilterBefore(null, null)
+		
+		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		http.headers().frameOptions().disable();
 		
