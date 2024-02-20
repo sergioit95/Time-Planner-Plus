@@ -10,18 +10,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class RespuestaUsuario {
 
-	private String id;
-	private String nombreUsuario, nombre, apellidos;
+	protected String id;
+	protected String nombreUsuario, nombre, apellidos;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime fechaCreacion;
+	protected LocalDateTime fechaCreacion;
 	
 	//Método que devuelve la respuesta con los campos que he querido que se muesten al cliente, una vez que se ha registrado un usuario
 	public static RespuestaUsuario deUsuario(Usuario usuario) {
