@@ -23,7 +23,8 @@ public class ServicioUsuario {
 	private final PasswordEncoder passwordEncoder;
 	private final RepositorioUsuario repositorioUsuario;
 	
-	public Usuario crearUsuario(CrearSolicitudDeUsuario crearSolicitudDeUsuario, Set<RolUsuario> roles) {
+	public Usuario crearUsuario(CrearSolicitudDeUsuario crearSolicitudDeUsuario, EnumSet<RolUsuario> roles) {
+		System.out.println("Roles asignados al usuario: "+roles);
 		Usuario usuario = Usuario.builder()
 					.nombreUsuario(crearSolicitudDeUsuario.getNombreUsuario())
 					.contrasena(passwordEncoder.encode(crearSolicitudDeUsuario.getContrasena()))
@@ -35,11 +36,12 @@ public class ServicioUsuario {
 	}
 	
 	public Usuario crearUsuarioConRolUsuario(CrearSolicitudDeUsuario crearSolicitudDeUsuario) {
-		return crearUsuario(crearSolicitudDeUsuario, Set.of(RolUsuario.USER));
+		return crearUsuario(crearSolicitudDeUsuario, EnumSet.of(RolUsuario.USER));
 	}
 	
+	
 	public Usuario crearUsuarioConRolAdmin(CrearSolicitudDeUsuario crearSolicitudDeUsuario) {
-		return crearUsuario(crearSolicitudDeUsuario, Set.of(RolUsuario.ADMIN));
+		return crearUsuario(crearSolicitudDeUsuario, EnumSet.of(RolUsuario.ADMIN));
 	}
 	
 	public List<Usuario> listarUsuarios() {

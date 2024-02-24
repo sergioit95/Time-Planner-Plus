@@ -81,9 +81,9 @@ public class Usuario implements UserDetails{
 	@Builder.Default
 	private boolean cuentaHabilitada = true;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(targetClass = RolUsuario.class, fetch = FetchType.EAGER)
+	@Enumerated(EnumType.STRING) 
 	@Column(name = "rol")
-	@Enumerated(EnumType.STRING)
 	private Set<RolUsuario> roles;
 	
 	@OneToMany(mappedBy = "usuario")
@@ -107,7 +107,7 @@ public class Usuario implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
 		return roles.stream()
-				.map(rol -> "ROL_" + rol)
+				.map(rol -> rol.name())
 				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList());
 	}

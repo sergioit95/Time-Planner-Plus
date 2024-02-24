@@ -23,48 +23,19 @@ public class ServicioTarea {
 	private final RepositorioTarea repositorioTarea;
 	private final RepositorioUsuario repositorioUsuario;
 	
-	public Tarea crearTarea(CrearSolicitudDeTarea crearSolicitudDeTarea, Set<EstadoTarea> estados) {
+	public Tarea crearTarea(CrearSolicitudDeTarea crearSolicitudDeTarea, Set<EstadoTarea> estado) throws Exception {
+		Usuario usuario = repositorioUsuario.findById(crearSolicitudDeTarea.getUsuario().getId()).orElseThrow(() -> new 
+				Exception("No se encontró el usuario con el id "+crearSolicitudDeTarea.getUsuario().getId()));
 		Tarea tarea = Tarea.builder()
 					.titulo(crearSolicitudDeTarea.getTitulo())
 					.descripcion(crearSolicitudDeTarea.getDescripcion())
-					.estados(estados)
+					.estados(estado)
+					.usuario(usuario)
 					.build();
 		return repositorioTarea.save(tarea);
 	}
 	
-	public Tarea crearTareaConEstadoPendiente(CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception {
-	    // Buscar el usuario por el id que viene en la solicitud
-	    Usuario usuario = repositorioUsuario.findById(crearSolicitudDeTarea.getUsuario().getId()).orElseThrow(() ->  new Exception("No se encontró el usuario con el id " + crearSolicitudDeTarea.getUsuario().getId()));
-	    // Crear la tarea con el usuario asignado
-	    Tarea tarea = Tarea.builder()
-	                .titulo(crearSolicitudDeTarea.getTitulo())
-	                .descripcion(crearSolicitudDeTarea.getDescripcion())
-	                .estados(Set.of(EstadoTarea.PENDIENTE))
-	                .usuario(usuario) // Asignar el usuario a la tarea
-	                .build();
-	    return repositorioTarea.save(tarea);
-	}
 	
-	public Tarea crearTareaConEstadoEnProgreso(CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception {
-		Usuario usuario = repositorioUsuario.findById(crearSolicitudDeTarea.getUsuario().getId()).orElseThrow(() ->  new Exception("No se encontró el usuario con el id " + crearSolicitudDeTarea.getUsuario().getId()));
-	    Tarea tarea = Tarea.builder()
-	                .titulo(crearSolicitudDeTarea.getTitulo())
-	                .descripcion(crearSolicitudDeTarea.getDescripcion())
-	                .estados(Set.of(EstadoTarea.EN_PROGRESO))
-	                .usuario(usuario) 
-	                .build();
-	    return repositorioTarea.save(tarea);
-	}
-	
-	public Tarea crearTareaConEstadoTerminada(CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception {
-		Usuario usuario = repositorioUsuario.findById(crearSolicitudDeTarea.getUsuario().getId()).orElseThrow(() ->  new Exception("No se encontró el usuario con el id " + crearSolicitudDeTarea.getUsuario().getId()));
-	    Tarea tarea = Tarea.builder()
-	                .titulo(crearSolicitudDeTarea.getTitulo())
-	                .descripcion(crearSolicitudDeTarea.getDescripcion())
-	                .estados(Set.of(EstadoTarea.TERMINADA))
-	                .usuario(usuario) 
-	                .build();
-	    return repositorioTarea.save(tarea);	}
 	
 	public List<Tarea> listarTareas() {
 		return repositorioTarea.findAll();

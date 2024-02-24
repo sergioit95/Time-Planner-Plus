@@ -34,10 +34,12 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	
+	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http) 
 		throws Exception {
 			AuthenticationManagerBuilder authenticationManagerBuilder = 
 					http.getSharedObject(AuthenticationManagerBuilder.class);
+			
 			AuthenticationManager authenticationManager = 
 					authenticationManagerBuilder
 					.userDetailsService(userDetailsService)
@@ -51,7 +53,7 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 	
 	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/autenticacion/registro");
+        return (web) -> web.ignoring().requestMatchers("/autenticacion/registro", "/autenticacion/registro/admin","/autenticacion/login");
     }
 	
 	@Bean
@@ -78,7 +80,7 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 			.and() 
 				.authorizeRequests()
 				.requestMatchers("/tareas/**").hasRole("USER")
-				.requestMatchers("autenticacion/registro/admin").hasRole("ADMIN")
+				.requestMatchers("/autenticacion/registro/admin").hasRole("ADMIN")
 				.anyRequest().authenticated();
 		
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

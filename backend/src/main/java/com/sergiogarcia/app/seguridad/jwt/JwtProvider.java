@@ -60,6 +60,7 @@ public class JwtProvider {
 							.now()
 							.plusDays(jwtLifeInDays)
 							.atZone(ZoneId.systemDefault())
+							.toInstant()
 							
 						);
 		

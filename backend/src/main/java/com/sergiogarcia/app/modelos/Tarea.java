@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Parameter;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -52,6 +53,7 @@ public class Tarea {
 	                        name = "uuid_gen_strategy_class",
 	                        value = "org.hibernate.id.uuid.CustomVersionOneStrategy")
 	        })
+	@CreatedBy
 	@Column(name = "id", columnDefinition = "BINARY(16)")
 	private UUID id;
 	

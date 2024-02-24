@@ -2,10 +2,13 @@ package com.sergiogarcia.app.controladores;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sergiogarcia.app.dto.CrearSolicitudDeTarea;
 import com.sergiogarcia.app.dto.RespuestaTarea;
+import com.sergiogarcia.app.modelos.EstadoTarea;
 import com.sergiogarcia.app.modelos.Tarea;
 import com.sergiogarcia.app.modelos.Usuario;
 import com.sergiogarcia.app.servicios.ServicioTarea;
@@ -26,21 +30,22 @@ import com.sergiogarcia.app.servicios.ServicioUsuario;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/tareas")
 @RequiredArgsConstructor
 
 public class ControladorTarea {
 	
-	
+	@Autowired
 	private final ServicioTarea servicioTarea;
 	
-	@GetMapping("/tareas")
-	public ResponseEntity<List<Tarea>> listarTareas(){
+	@GetMapping
+	public ResponseEntity<List<Tarea>> listarTareas(@AuthenticationPrincipal Usuario usuario){
 		List<Tarea> tareas = servicioTarea.listarTareas();
 		return ResponseEntity.ok(tareas);
 		
 	}
     
-	@GetMapping("/tareas/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Tarea> buscarTareaPorId(@PathVariable UUID id){
 		Optional<Tarea> tarea = servicioTarea.buscarPorIdTarea(id);
 		if (tarea.isPresent()) {
@@ -50,25 +55,20 @@ public class ControladorTarea {
 		}
 	}
 	
-	@PostMapping("/tareas/pendientes")
-	public ResponseEntity<Tarea> crearTareaPendiente(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception {
-	    Tarea tareaCreada = servicioTarea.crearTareaConEstadoPendiente(crearSolicitudDeTarea);
-	    return ResponseEntity.status(HttpStatus.CREATED).body(tareaCreada);
+	@PostMapping
+	public ResponseEntity<Tarea> crearTarea(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea, @RequestParam Set<EstadoTarea> estado) throws Exception {
+
+		try {
+			Tarea tarea = servicioTarea.crearTarea(crearSolicitudDeTarea, estado);
+			return ResponseEntity.status(HttpStatus.CREATED).body(tarea);
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	
+		}
 	}
 	
-	@PostMapping("/tareas/en-progreso")
-	public ResponseEntity<Tarea> crearTareaEnProgreso(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception{
-		Tarea tarea = servicioTarea.crearTareaConEstadoEnProgreso(crearSolicitudDeTarea);
-		return ResponseEntity.status(HttpStatus.CREATED).body(tarea);
-	}
 	
-	@PostMapping("/tareas/terminadas")
-	public ResponseEntity<Tarea> crearTareaCompletada(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception{
-		Tarea tarea = servicioTarea.crearTareaConEstadoTerminada(crearSolicitudDeTarea);
-		return ResponseEntity.status(HttpStatus.CREATED).body(tarea);
-	}
-	
-	@PutMapping("/tareas/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Tarea> editarTarea(@PathVariable UUID id, @RequestBody Tarea tarea){
 		tarea.setId(id);
 		Optional<Tarea> tareaActualizada = servicioTarea.editarTarea(tarea);
@@ -79,15 +79,11 @@ public class ControladorTarea {
 		}
 	}
 	
-	@DeleteMapping("/tareas/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminarTareaPorId(@PathVariable UUID id){
 		servicioTarea.eliminarTareaPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("/tareas")
-	public ResponseEntity<Void> eliminarTarea(@PathVariable Tarea tarea){
-		servicioTarea.eliminarTarea(tarea);
-		return ResponseEntity.noContent().build();
-	}
+	
 }
