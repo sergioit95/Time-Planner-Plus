@@ -53,7 +53,6 @@ public class Tarea {
 	                        name = "uuid_gen_strategy_class",
 	                        value = "org.hibernate.id.uuid.CustomVersionOneStrategy")
 	        })
-	@CreatedBy
 	@Column(name = "id", columnDefinition = "BINARY(16)")
 	private UUID id;
 	
@@ -63,10 +62,8 @@ public class Tarea {
 	@Column(name = "descripcion", nullable = false)
 	private String descripcion;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@Column(name = "estado")
-	@Enumerated(EnumType.STRING)
-	private Set<EstadoTarea> estados;
+	@Column(name = "esta_completada", nullable = false)
+	private Boolean estaCompletada = false;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST) // Propagar la operación de persistencia al usuario
 	@JoinColumn(name = "usuario_id") 

@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.sergiogarcia.app.dto.CrearSolicitudDeTarea;
-import com.sergiogarcia.app.modelos.EstadoTarea;
 import com.sergiogarcia.app.modelos.Tarea;
 import com.sergiogarcia.app.modelos.Usuario;
 import com.sergiogarcia.app.repositorios.RepositorioTarea;
@@ -23,19 +25,37 @@ public class ServicioTarea {
 	private final RepositorioTarea repositorioTarea;
 	private final RepositorioUsuario repositorioUsuario;
 	
-	public Tarea crearTarea(CrearSolicitudDeTarea crearSolicitudDeTarea, Set<EstadoTarea> estado) throws Exception {
-		Usuario usuario = repositorioUsuario.findById(crearSolicitudDeTarea.getUsuario().getId()).orElseThrow(() -> new 
-				Exception("No se encontró el usuario con el id "+crearSolicitudDeTarea.getUsuario().getId()));
+	public Tarea crearTarea(CrearSolicitudDeTarea crearSolicitudDeTarea) throws Exception {
+		String nombreUsuario = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usuario = repositorioUsuario.findFirstByNombreUsuario(nombreUsuario).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: "+nombreUsuario));
 		Tarea tarea = Tarea.builder()
 					.titulo(crearSolicitudDeTarea.getTitulo())
 					.descripcion(crearSolicitudDeTarea.getDescripcion())
-					.estados(estado)
+					.estaCompletada(false)
 					.usuario(usuario)
 					.build();
 		return repositorioTarea.save(tarea);
 	}
 	
+	public Tarea completarTarea(UUID id) throws Exception {
+		Tarea tarea = repositorioTarea.findById(id).orElseThrow(() -> new Exception("Tarea no encontrada con el ID: " + id));
+		tarea.setEstaCompletada(true);
+		return repositorioTarea.save(tarea);
+	}
 	
+	public Tarea desmarcarTarea(UUID id) throws Exception {
+        Tarea tarea = repositorioTarea.findById(id).orElseThrow(() -> new Exception("Tarea no encontrada con el ID: " + id));
+        tarea.setEstaCompletada(false);
+        return repositorioTarea.save(tarea);
+    }
+	
+	public List<Tarea> obtenerTareasCompletadas() {
+        return repositorioTarea.findAll().stream().filter(tarea -> tarea.getEstaCompletada()).collect(Collectors.toList());
+    }
+	
+	public List<Tarea> obtenerTareasNoCompletadas() {
+        return repositorioTarea.findAll().stream().filter(tarea -> !tarea.getEstaCompletada()).collect(Collectors.toList());
+    }
 	
 	public List<Tarea> listarTareas() {
 		return repositorioTarea.findAll();
@@ -56,20 +76,20 @@ public class ServicioTarea {
 				.map(t -> {
 					t.setTitulo(tarea.getTitulo());
 					t.setDescripcion(tarea.getDescripcion());
+					t.setEstaCompletada(tarea.getEstaCompletada());
 					
-					return repositorioTarea.save(tarea);
+					return repositorioTarea.save(t);
 				});
 	}
 	
 	
-	public void eliminarTareaPorId(UUID id) {
-		if(repositorioTarea.existsById(id)) {			
+	public void eliminarTareaPorId(UUID id) throws Exception {
+		if(repositorioTarea.existsById(id)) {
+			repositorioTarea.deleteById(id);
 		}else {
-			repositorioTarea.deleteById(id);	
+			throw new Exception("Tarea no encontrada con el ID: "+id);
 		}
 	}
 	
-	public void eliminarTarea(Tarea tarea) {
-		eliminarTareaPorId(tarea.getId());
-	}
+	
 }

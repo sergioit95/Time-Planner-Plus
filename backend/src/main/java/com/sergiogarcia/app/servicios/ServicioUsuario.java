@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sergiogarcia.app.dto.CrearSolicitudDeUsuario;
-import com.sergiogarcia.app.modelos.RolUsuario;
 import com.sergiogarcia.app.modelos.Usuario;
 import com.sergiogarcia.app.repositorios.RepositorioUsuario;
 
@@ -23,26 +22,16 @@ public class ServicioUsuario {
 	private final PasswordEncoder passwordEncoder;
 	private final RepositorioUsuario repositorioUsuario;
 	
-	public Usuario crearUsuario(CrearSolicitudDeUsuario crearSolicitudDeUsuario, EnumSet<RolUsuario> roles) {
-		System.out.println("Roles asignados al usuario: "+roles);
+	public Usuario crearUsuario(CrearSolicitudDeUsuario crearSolicitudDeUsuario) {
 		Usuario usuario = Usuario.builder()
 					.nombreUsuario(crearSolicitudDeUsuario.getNombreUsuario())
 					.contrasena(passwordEncoder.encode(crearSolicitudDeUsuario.getContrasena()))
 					.nombre(crearSolicitudDeUsuario.getNombre())
 					.apellidos(crearSolicitudDeUsuario.getApellidos())
-					.roles(roles)
 					.build();
 		return repositorioUsuario.save(usuario);
 	}
 	
-	public Usuario crearUsuarioConRolUsuario(CrearSolicitudDeUsuario crearSolicitudDeUsuario) {
-		return crearUsuario(crearSolicitudDeUsuario, EnumSet.of(RolUsuario.USER));
-	}
-	
-	
-	public Usuario crearUsuarioConRolAdmin(CrearSolicitudDeUsuario crearSolicitudDeUsuario) {
-		return crearUsuario(crearSolicitudDeUsuario, EnumSet.of(RolUsuario.ADMIN));
-	}
 	
 	public List<Usuario> listarUsuarios() {
 		return repositorioUsuario.findAll();

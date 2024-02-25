@@ -6,7 +6,9 @@ plugins {
 
 group = 'com.sergiogarcia'
 version = '0.0.1-SNAPSHOT'
-
+compileJava {
+    options.compilerArgs += ['-parameters']
+}
 java {
 	sourceCompatibility = '17'
 }

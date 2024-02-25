@@ -27,7 +27,6 @@ import com.sergiogarcia.app.dto.CrearSolicitudDeUsuario;
 import com.sergiogarcia.app.dto.RespuestaLogin;
 import com.sergiogarcia.app.dto.RespuestaUsuario;
 import com.sergiogarcia.app.dto.RespuestaUsuarioJwt;
-import com.sergiogarcia.app.modelos.RolUsuario;
 import com.sergiogarcia.app.modelos.Tarea;
 import com.sergiogarcia.app.modelos.Usuario;
 import com.sergiogarcia.app.seguridad.jwt.JwtProvider;
@@ -50,40 +49,17 @@ public class ControladorUsuario {
     public ResponseEntity<RespuestaUsuario> crearUsuarioConRolUsuario(
     		@RequestBody CrearSolicitudDeUsuario crearSolicitudDeUsuario
     		){
-    	Usuario usuario = servicioUsuario.crearUsuarioConRolUsuario(crearSolicitudDeUsuario);
+    	Usuario usuario = servicioUsuario.crearUsuario(crearSolicitudDeUsuario);
     	
     	return ResponseEntity.status(HttpStatus.CREATED).body(RespuestaUsuario.deUsuario(usuario));
-    }
-    /*
-    //Método que crea el endpoint y la solicitud para registrar usuarios con rol de administrador
-    @PostMapping("/autenticacion/registro/admin")
-    public ResponseEntity<RespuestaUsuario> crearUsuarioConRolAdmin(
-    		@RequestBody CrearSolicitudDeUsuario crearSolicitudDeUsuario
-    		){
-    	Usuario usuario = servicioUsuario.crearUsuarioConRolAdmin(crearSolicitudDeUsuario);
-    	
-    	return ResponseEntity.status(HttpStatus.CREATED).body(RespuestaUsuario.deUsuario(usuario));
-    }
-    */
-    //Método que crea el endpoint y la solicitud para listar todos los usuarios. Donde solo los administradores tienen acceso
-    @GetMapping("autenticacion/panel-administracion")
-    public ResponseEntity<List<Usuario>> listarUsuarios(){
-    	List<Usuario> usuarios = servicioUsuario.listarUsuarios();
-    	return ResponseEntity.ok(usuarios);
-    	
     }
     
-    //Método que crea el endpoint y la solicitud para listar todos los usuarios. Donde solo los administradores tienen acceso
-    @GetMapping("autenticacion/panel-administracion/{nombreUsuario}")
-    public ResponseEntity<Usuario> buscarUsuario(@PathVariable String nombreUsuario){
-    	Optional<Usuario> usuario = servicioUsuario.buscarPorNombreUsuario(nombreUsuario);
-    	return ResponseEntity.ok(usuario.get());
-    	
-    }
+
+   
     
     //Método que crea el endpoint y la solicitud para editar un usuario por su id. Donde solo los administradores tienen acceso
-	@PutMapping("/autenticacion/perfil-admin/{id}")
-	public ResponseEntity<Usuario> editarUsuario(@PathVariable UUID id, @RequestBody Usuario usuario){
+	@PutMapping("/autenticacion/perfil/{id}")
+	public ResponseEntity<Usuario> editarUsuario(@PathVariable("id") UUID id, @RequestBody Usuario usuario){
 		Optional<Usuario> usuarioActualizado = servicioUsuario.editarUsuario(usuario);
 		if (usuarioActualizado.isPresent()) {
 			return ResponseEntity.ok(usuarioActualizado.get());
@@ -93,8 +69,8 @@ public class ControladorUsuario {
 	}
 
     //Método que crea el endpoint y la solicitud para editar la contraseña de un usuario. Donde solo los administradores tienen acceso
-   	@PutMapping("/autenticacion/perfil-admin/{id}/contrasena")
-   	public ResponseEntity<Usuario> editarContrasena(@PathVariable UUID id, @RequestBody String nuevaContrasena){
+   	@PutMapping("/autenticacion/perfil/{id}/contrasena")
+   	public ResponseEntity<Usuario> editarContrasena(@PathVariable("id") UUID id, @RequestBody String nuevaContrasena){
    		Optional<Usuario> usuario = servicioUsuario.editarContrasena(id, nuevaContrasena);
    		if (usuario.isPresent()) {
    			return ResponseEntity.ok(usuario.get());
@@ -103,12 +79,6 @@ public class ControladorUsuario {
    		}
    	}
     
-    //Método que crea el endpoint y la solicitud para eliminar un usuario pasandole su id como parámetro. Donde solo los administradores tienen acceso
-    @DeleteMapping("/autenticacion/panel-administracion/{id}")
-	public ResponseEntity<?> eliminarUsuario(@PathVariable UUID id){
-    	servicioUsuario.eliminarUsuarioPorId(id);
-		return ResponseEntity.ok("Usuario eliminado con éxito");
-    }
     
     @PostMapping("/autenticacion/login")
     public ResponseEntity<RespuestaUsuarioJwt> login(@RequestBody RespuestaLogin respuestaLogin) {

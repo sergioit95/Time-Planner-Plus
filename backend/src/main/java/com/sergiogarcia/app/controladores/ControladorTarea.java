@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sergiogarcia.app.dto.CrearSolicitudDeTarea;
 import com.sergiogarcia.app.dto.RespuestaTarea;
-import com.sergiogarcia.app.modelos.EstadoTarea;
+import com.sergiogarcia.app.dto.RespuestaUsuario;
 import com.sergiogarcia.app.modelos.Tarea;
 import com.sergiogarcia.app.modelos.Usuario;
 import com.sergiogarcia.app.servicios.ServicioTarea;
@@ -32,58 +32,85 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/tareas")
 @RequiredArgsConstructor
-
 public class ControladorTarea {
-	
-	@Autowired
-	private final ServicioTarea servicioTarea;
-	
-	@GetMapping
-	public ResponseEntity<List<Tarea>> listarTareas(@AuthenticationPrincipal Usuario usuario){
-		List<Tarea> tareas = servicioTarea.listarTareas();
-		return ResponseEntity.ok(tareas);
-		
-	}
     
-	@GetMapping("/{id}")
-	public ResponseEntity<Tarea> buscarTareaPorId(@PathVariable UUID id){
-		Optional<Tarea> tarea = servicioTarea.buscarPorIdTarea(id);
-		if (tarea.isPresent()) {
-			return ResponseEntity.ok(tarea.get());
-		}else {
-			return ResponseEntity.notFound().build();
-		}
-	}
-	
-	@PostMapping
-	public ResponseEntity<Tarea> crearTarea(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea, @RequestParam Set<EstadoTarea> estado) throws Exception {
+    private final ServicioTarea servicioTarea;
 
-		try {
-			Tarea tarea = servicioTarea.crearTarea(crearSolicitudDeTarea, estado);
-			return ResponseEntity.status(HttpStatus.CREATED).body(tarea);
-		}catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-	
-		}
-	}
-	
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Tarea> editarTarea(@PathVariable UUID id, @RequestBody Tarea tarea){
-		tarea.setId(id);
-		Optional<Tarea> tareaActualizada = servicioTarea.editarTarea(tarea);
-		if (tareaActualizada.isPresent()) {
-			return ResponseEntity.ok(tareaActualizada.get());
-		}else {
-			return ResponseEntity.notFound().build();
-		}
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminarTareaPorId(@PathVariable UUID id){
-		servicioTarea.eliminarTareaPorId(id);
-		return ResponseEntity.noContent().build();
-	}
-	
-	
+   
+
+    // Listar todas las tareas
+    @GetMapping
+    public ResponseEntity<List<Tarea>> listarTareas() {
+        List<Tarea> tareas = servicioTarea.listarTareas();
+        return ResponseEntity.ok(tareas);
+    }
+
+    // Buscar tarea por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Tarea> buscarTareaPorId(@PathVariable("id") UUID id) {
+        Optional<Tarea> tarea = servicioTarea.buscarPorIdTarea(id);
+        return tarea.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Crear tarea
+    @PostMapping
+    public ResponseEntity<RespuestaTarea> crearTarea(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) {
+        try {
+            Tarea tarea = servicioTarea.crearTarea(crearSolicitudDeTarea);
+            return ResponseEntity.status(HttpStatus.CREATED).body(RespuestaTarea.deTarea(tarea));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    // Completar tarea
+    @PostMapping("/{id}/completar")
+    public ResponseEntity<Tarea> completarTarea(@PathVariable("id") UUID id) {
+        try {
+            Tarea tarea = servicioTarea.completarTarea(id);
+            return ResponseEntity.ok(tarea);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    // Desmarcar tarea como no completada
+    @PostMapping("/{id}/desmarcar")
+    public ResponseEntity<Tarea> desmarcarTarea(@PathVariable("id") UUID id) {
+        try {
+            Tarea tarea = servicioTarea.desmarcarTarea(id);
+            return ResponseEntity.ok(tarea);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    // Editar tarea
+    @PutMapping("/{id}")
+    public ResponseEntity<Tarea> editarTarea(@PathVariable("id") UUID id, @RequestBody Tarea tarea) {
+        tarea.setId(id);
+        Optional<Tarea> tareaActualizada = servicioTarea.editarTarea(tarea);
+        return tareaActualizada.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Eliminar tarea
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTareaPorId(@PathVariable("id") UUID id) throws Exception {
+        servicioTarea.eliminarTareaPorId(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Obtener tareas completadas
+    @GetMapping("/completadas")
+    public ResponseEntity<List<Tarea>> obtenerTareasCompletadas() {
+        List<Tarea> tareas = servicioTarea.obtenerTareasCompletadas();
+        return ResponseEntity.ok(tareas);
+    }
+
+    // Obtener tareas no completadas
+    @GetMapping("/no-completadas")
+    public ResponseEntity<List<Tarea>> obtenerTareasNoCompletadas() {
+        List<Tarea> tareas = servicioTarea.obtenerTareasNoCompletadas();
+        return ResponseEntity.ok(tareas);
+    }
 }

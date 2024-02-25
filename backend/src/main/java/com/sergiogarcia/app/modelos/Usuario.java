@@ -2,6 +2,7 @@ package com.sergiogarcia.app.modelos;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -81,10 +82,7 @@ public class Usuario implements UserDetails{
 	@Builder.Default
 	private boolean cuentaHabilitada = true;
 	
-	@ElementCollection(targetClass = RolUsuario.class, fetch = FetchType.EAGER)
-	@Enumerated(EnumType.STRING) 
-	@Column(name = "rol")
-	private Set<RolUsuario> roles;
+
 	
 	@OneToMany(mappedBy = "usuario")
     private Set<Tarea> tareas;
@@ -106,10 +104,7 @@ public class Usuario implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return roles.stream()
-				.map(rol -> rol.name())
-				.map(SimpleGrantedAuthority::new)
-				.collect(Collectors.toList());
+		return Collections.singletonList(new SimpleGrantedAuthority("USER"));
 	}
 
 	@Override
