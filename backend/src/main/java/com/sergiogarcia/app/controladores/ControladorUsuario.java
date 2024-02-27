@@ -46,7 +46,7 @@ public class ControladorUsuario {
     
     //Método que crea el endpoint y la solicitud para registrar usuarios con rol de usuario
     @PostMapping("/autenticacion/registro")
-    public ResponseEntity<RespuestaUsuario> crearUsuarioConRolUsuario(
+    public ResponseEntity<RespuestaUsuario> crearUsuario(
     		@RequestBody CrearSolicitudDeUsuario crearSolicitudDeUsuario
     		){
     	Usuario usuario = servicioUsuario.crearUsuario(crearSolicitudDeUsuario);
