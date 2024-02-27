@@ -8,20 +8,23 @@
   <form (submit)="registrar()">
     <ion-item>
       <ion-label position="floating">Nombre de Usuario</ion-label>
-      <ion-input ngModel="nombreUsuario" name="nombreUsuario" required></ion-input>
+      <ion-input [(ngModel)]="nombreUsuario" name="nombreUsuario" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input ngModel="contrasena" name="contrasena" type="password" required></ion-input>
+      <ion-input [(ngModel)]="contrasena" name="contrasena" type="password" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input ngModel="nombre" name="nombre" required></ion-input>
+      <ion-input [(ngModel)]="nombre" name="nombre" required></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Apellidos</ion-label>
-      <ion-input ngModel="apellidos" name="apellidos" required></ion-input>
+      <ion-input [(ngModel)]="apellidos" name="apellidos" required></ion-input>
     </ion-item>
     <ion-button type="submit" expand="block">Registrar</ion-button>
   </form>
+  <p style="text-align: center; margin-top: 20px;">
+    ¿Ya estás registrado? <a routerLink="/tabs/login">Inicia sesión aquí</a>
+  </p>
 </ion-content>

@@ -7,6 +7,7 @@ const routes: Routes = [
   {
     path: 'tareas',
     component: TareasPage
+    
   }
 ];
 

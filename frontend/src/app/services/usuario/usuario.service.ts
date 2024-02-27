@@ -8,7 +8,7 @@ import { RespuestaUsuarioJwt } from 'src/app/models/RespuestaUsuarioJwt';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:8081/autenticacion'; // Ajusta esto según la URL de tu API.
+  private apiUrl = 'http://localhost:8081/autenticacion'; 
 
   constructor(private http: HttpClient) {}
 
@@ -16,7 +16,7 @@ export class UsuarioService {
     return this.http.post<RespuestaUsuarioJwt>(`${this.apiUrl}/registro`, solicitud);
   }
 
-  editarUsuario(id: string, usuario: any): Observable<any> { // Reemplaza any por tipos específicos según tu modelo.
+  editarUsuario(id: string, usuario: any): Observable<any> { 
     return this.http.put(`${this.apiUrl}/perfil/${id}`, usuario);
   }
 

@@ -8,7 +8,7 @@ import { CrearSolicitudDeTarea } from 'src/app/models/CrearSolicitudDeTarea';imp
 })
 export class TareaService {
 
-  private apiUrl = 'http://localhost:8081/tareas'; // Ajusta a la URL base de tu API.
+  private apiUrl = 'http://localhost:8081/tareas'; 
 
   constructor(private http: HttpClient) {}
 
