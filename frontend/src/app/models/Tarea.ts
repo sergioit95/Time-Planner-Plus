@@ -6,7 +6,7 @@ export interface Tarea {
     descripcion: string;
     estaCompletada: boolean;
     usuario?: Usuario; 
-    creadoEn: Date;
+    creadoEn?: Date;
   }
   
 

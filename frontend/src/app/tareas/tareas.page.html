@@ -4,7 +4,15 @@
   </ion-toolbar>
 </ion-header>
 
+
+
 <ion-content>
+  
+    
+  
+    
+    <app-crear-tarea-form *ngIf="mostrarFormularioCreacion" (tareaCreada)="handleTareaCreada($event)"></app-crear-tarea-form>
+
   <ion-list>
     <ion-item *ngFor="let tarea of tareas">
       <ion-label>
@@ -13,4 +21,8 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-button class="boton-crear-tarea" (click)="mostrarFormularioCreacion = !mostrarFormularioCreacion">
+    <ion-icon name="add"></ion-icon>
+  </ion-button>
 </ion-content>

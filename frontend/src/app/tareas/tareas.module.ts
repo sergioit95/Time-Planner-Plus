@@ -7,12 +7,13 @@ import { IonicModule } from '@ionic/angular';
 import { TareasPageRoutingModule } from './tareas-routing.module';
 
 import { TareasPage } from './tareas.page';
-
+import { CrearTareaFormModule } from '../crear-tarea-form/crear-tarea-form.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    CrearTareaFormModule,
     TareasPageRoutingModule
   ],
   declarations: [TareasPage]
