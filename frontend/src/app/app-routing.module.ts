@@ -14,7 +14,10 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./tareas/tareas.module').then(m => m.TareasPageModule)
   },
-  
+  {
+    path: 'editar-tarea/:id',
+    loadChildren: () => import('./editar-tarea/editar-tarea.module').then(m => m.EditarTareaModule)
+  }
 ];
 @NgModule({
   imports: [

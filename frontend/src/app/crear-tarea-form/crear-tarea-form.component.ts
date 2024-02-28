@@ -12,6 +12,7 @@ export class CrearTareaFormComponent {
 
   titulo: string = '';
   descripcion: string = '';
+  estaCompletada!: boolean;
 
   constructor(private tareaService: TareaService) {}
 
@@ -19,6 +20,7 @@ export class CrearTareaFormComponent {
     const nuevaTarea: CrearSolicitudDeTarea = {
       titulo: this.titulo,
       descripcion: this.descripcion,
+      estaCompletada: this.estaCompletada
     };
 
     this.tareaService.crearTarea(nuevaTarea).subscribe({

@@ -14,10 +14,15 @@
     <app-crear-tarea-form *ngIf="mostrarFormularioCreacion" (tareaCreada)="handleTareaCreada($event)"></app-crear-tarea-form>
 
   <ion-list>
-    <ion-item *ngFor="let tarea of tareas">
+    <ion-item *ngFor="let tarea of tareas" (click)="editarTarea(tarea.id)">
       <ion-label>
         <h2>{{ tarea.titulo }}</h2>
         <p>{{ tarea.descripcion }}</p>
+        <p>{{ tarea.creadoEn | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p [ngClass]="tarea.estaCompletada ? 'completada' : 'enProceso'">
+          {{ tarea.estaCompletada ? 'Completada' : 'Sin Completar' }}
+        </p>
+        
       </ion-label>
     </ion-item>
   </ion-list>

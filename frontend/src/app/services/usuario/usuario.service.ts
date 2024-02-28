@@ -12,6 +12,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
+
+  
   crearUsuario(solicitud: CrearSolicitudDeUsuario): Observable<RespuestaUsuarioJwt> {
     return this.http.post<RespuestaUsuarioJwt>(`${this.apiUrl}/registro`, solicitud);
   }
@@ -26,5 +28,8 @@ export class UsuarioService {
 
   login(nombreUsuario: string, contrasena: string): Observable<RespuestaUsuarioJwt> {
     return this.http.post<RespuestaUsuarioJwt>(`${this.apiUrl}/login`, { nombreUsuario, contrasena });
+  }
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

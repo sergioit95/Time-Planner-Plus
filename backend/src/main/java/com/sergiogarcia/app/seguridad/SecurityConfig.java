@@ -53,7 +53,7 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 	
 	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/autenticacion/registro", "/autenticacion/login");
+        return (web) -> web.ignoring().requestMatchers("/autenticacion/registro", "/tareas/**", "/autenticacion/login");
     }
 	
 	@Bean
@@ -79,8 +79,7 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and() 
 				.authorizeRequests()
-				
-				.anyRequest().authenticated();
+					.anyRequest().authenticated();
 		
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		

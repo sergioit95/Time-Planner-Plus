@@ -71,8 +71,8 @@ public class ServicioTarea {
 	
 
 	
-	public Optional<Tarea> editarTarea(Tarea tarea) {
-		return repositorioTarea.findById(tarea.getId())
+	public Optional<Tarea> editarTarea(UUID id, CrearSolicitudDeTarea tarea) {
+		return repositorioTarea.findById(id)
 				.map(t -> {
 					t.setTitulo(tarea.getTitulo());
 					t.setDescripcion(tarea.getDescripcion());

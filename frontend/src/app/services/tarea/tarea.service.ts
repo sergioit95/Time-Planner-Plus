@@ -13,49 +13,41 @@ export class TareaService {
 
   constructor(private http: HttpClient) {}
 
-  private obtenerHttpOptions(): { headers: HttpHeaders } {
-    const token = localStorage.getItem('token'); 
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      })
-    };
-  }
+
 
   listarTareas(): Observable<Tarea[]> {
-    return this.http.get<Tarea[]>(this.apiUrl, this.obtenerHttpOptions());
+    return this.http.get<Tarea[]>(this.apiUrl);
   }
 
   buscarTareaPorId(id: string): Observable<Tarea> {
-    return this.http.get<Tarea>(`${this.apiUrl}/${id}`, this.obtenerHttpOptions());
+    return this.http.get<Tarea>(`${this.apiUrl}/${id}`);
   }
 
   crearTarea(solicitud: CrearSolicitudDeTarea): Observable<Tarea> {
-    return this.http.post<Tarea>(this.apiUrl, solicitud, this.obtenerHttpOptions());
+    return this.http.post<Tarea>(this.apiUrl, solicitud);
   }
 
   completarTarea(id: string): Observable<Tarea> {
-    return this.http.post<Tarea>(`${this.apiUrl}/${id}/completar`, {}, this.obtenerHttpOptions());
+    return this.http.post<Tarea>(`${this.apiUrl}/${id}/completar`, {});
   }
 
   desmarcarTarea(id: string): Observable<Tarea> {
-    return this.http.post<Tarea>(`${this.apiUrl}/${id}/desmarcar`, {}, this.obtenerHttpOptions());
+    return this.http.post<Tarea>(`${this.apiUrl}/${id}/desmarcar`, {});
   }
 
   editarTarea(id: string, tarea: Tarea): Observable<Tarea> {
-    return this.http.put<Tarea>(`${this.apiUrl}/${id}`, tarea, this.obtenerHttpOptions());
+    return this.http.put<Tarea>(`${this.apiUrl}/${id}`, tarea);
   }
 
   eliminarTareaPorId(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, this.obtenerHttpOptions());
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   obtenerTareasCompletadas(): Observable<Tarea[]> {
-    return this.http.get<Tarea[]>(`${this.apiUrl}/completadas`, this.obtenerHttpOptions());
+    return this.http.get<Tarea[]>(`${this.apiUrl}/completadas`);
   }
 
   obtenerTareasNoCompletadas(): Observable<Tarea[]> {
-    return this.http.get<Tarea[]>(`${this.apiUrl}/no-completadas`, this.obtenerHttpOptions());
+    return this.http.get<Tarea[]>(`${this.apiUrl}/no-completadas`);
   }
 }

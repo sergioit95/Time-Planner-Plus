@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Tarea</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="editarTarea()">
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input [(ngModel)]="tarea.titulo" name="titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input [(ngModel)]="tarea.descripcion" name="descripcion"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>¿Está completada?</ion-label>
+      <ion-select [(ngModel)]="tarea.estaCompletada" name="estaCompletada">
+        <ion-select-option value="true">Sí</ion-select-option>
+        <ion-select-option value="false">No</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button type="submit" expand="block">Guardar Cambios</ion-button>
+  </form>
+</ion-content>
