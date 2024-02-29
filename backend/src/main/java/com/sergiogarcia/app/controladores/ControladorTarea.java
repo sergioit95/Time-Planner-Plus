@@ -53,7 +53,7 @@ public class ControladorTarea {
     }
 
     // Crear tarea
-    @PostMapping
+    @PostMapping("/crear-tarea")
     public ResponseEntity<RespuestaTarea> crearTarea(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) {
         try {
             Tarea tarea = servicioTarea.crearTarea(crearSolicitudDeTarea);

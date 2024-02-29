@@ -9,7 +9,7 @@ import { CrearTareaFormComponent } from './crear-tarea-form.component';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule 
+    IonicModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [CrearTareaFormComponent]

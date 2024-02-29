@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { TareaService } from '../services/tarea/tarea.service';
 import { CrearSolicitudDeTarea } from '../models/CrearSolicitudDeTarea';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-crear-tarea-form',
   templateUrl: './crear-tarea-form.component.html',
@@ -14,7 +14,7 @@ export class CrearTareaFormComponent {
   descripcion: string = '';
   estaCompletada!: boolean;
 
-  constructor(private tareaService: TareaService) {}
+  constructor(private router: Router, private tareaService: TareaService) {}
 
   crearTarea() {
     const nuevaTarea: CrearSolicitudDeTarea = {
@@ -27,10 +27,14 @@ export class CrearTareaFormComponent {
       next: (tarea) => {
         console.log('Tarea creada con éxito');
         this.tareaCreada.emit(tarea);
+        this.router.navigate(['/tareas']);
       },
       error: (error) => {
         console.error('Error al crear la tarea', error);
       },
     });
+  }
+  cancelarCreacion() {
+    this.router.navigate(['/tareas']);
   }
 }

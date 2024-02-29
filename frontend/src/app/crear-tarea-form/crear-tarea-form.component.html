@@ -14,6 +14,8 @@
       <ion-label position="floating">Descripción</ion-label>
       <ion-input [(ngModel)]="descripcion" name="descripcion"  required></ion-input>
     </ion-item>    
-    <ion-button type="submit" expand="block">Crear Tarea</ion-button>
+    <ion-button  type="submit" expand="block">Crear Tarea</ion-button>
+    <ion-button type="button" expand="block" color="medium" (click)="cancelarCreacion()">Cancelar</ion-button>
+
   </form>
 </ion-content>

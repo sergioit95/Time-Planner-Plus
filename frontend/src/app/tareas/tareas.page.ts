@@ -9,18 +9,24 @@ import { ComunicacionService } from '../services/comunicacion/comunicacion.servi
   styleUrls: ['./tareas.page.scss'],
 })
 export class TareasPage implements OnInit {
-  tareas: Tarea[] = []
+  tareas: Tarea[] = [];
+  tareasCompletadas: Tarea[] = [];
+  tareasNoCompletadas: Tarea[] = [];
   mostrarFormularioCreacion: boolean = false;
+  tabActivo: string = 'todas';
+
 
   constructor(private comunicacionService: ComunicacionService, private router: Router, private tareaService: TareaService) { }
 
   ngOnInit() {
     this.cargarTareas();
+    this.cargarTareasCompletadas();
+    this.cargarTareasNoCompletadas();
     this.comunicacionService.tareaEditada$.subscribe({
       next: (tareaEditada) => {
-        // Aquí, puedes recargar la lista de tareas o actualizar la lista localmente
-        // Por ejemplo, recargar la lista desde el servidor:
         this.cargarTareas();
+        this.cargarTareasCompletadas();
+        this.cargarTareasNoCompletadas();
       }
     });
   }
@@ -33,8 +39,24 @@ export class TareasPage implements OnInit {
       this.tareas = tareas;
     });
   }
+
+  cargarTareasCompletadas() {
+    this.tareaService.obtenerTareasCompletadas().subscribe(tareas =>{
+      this.tareasCompletadas = tareas;
+    });
+  }
+
+  cargarTareasNoCompletadas() {
+    this.tareaService.obtenerTareasNoCompletadas().subscribe(tareas =>{
+      this.tareasNoCompletadas = tareas;
+    })
+  }
   handleTareaCreada(tarea: Tarea) {
     this.tareas.push(tarea);
     this.mostrarFormularioCreacion = false; 
+  }
+
+  cambiarTab(tab: string) {
+    this.tabActivo = tab;
   }
 }

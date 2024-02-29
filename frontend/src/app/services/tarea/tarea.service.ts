@@ -24,8 +24,8 @@ export class TareaService {
   }
 
   crearTarea(solicitud: CrearSolicitudDeTarea): Observable<Tarea> {
-    return this.http.post<Tarea>(this.apiUrl, solicitud);
-  }
+    return this.http.post<Tarea>(`${this.apiUrl}/crear-tarea`, solicitud);
+}
 
   completarTarea(id: string): Observable<Tarea> {
     return this.http.post<Tarea>(`${this.apiUrl}/${id}/completar`, {});

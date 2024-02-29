@@ -3,7 +3,7 @@ import { Tarea } from '../models/Tarea';
 import { TareaService } from '../services/tarea/tarea.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComunicacionService } from '../services/comunicacion/comunicacion.service';
-
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-editar-tarea',
   templateUrl: './editar-tarea.component.html',
@@ -46,4 +46,8 @@ export class EditarTareaComponent implements OnInit {
       },
     });
   }
+  cancelarEdicion() {
+    this.router.navigate(['/tareas']);
+  }
+  
 }
