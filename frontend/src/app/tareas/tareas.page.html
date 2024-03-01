@@ -28,6 +28,15 @@
             {{ tarea.estaCompletada ? 'Completada' : 'Sin Terminar' }}
           </p>
         </ion-label>
+         <!-- Botón Desmarcar para tareas completadas -->
+        <ion-button *ngIf="tarea.estaCompletada" class="boton-desmarcar" (click)="desmarcarTarea(tarea.id, $event)">
+          Desmarcar
+        </ion-button>
+
+        <!-- Botón Completar para tareas no completadas -->
+        <ion-button *ngIf="!tarea.estaCompletada" class="boton-completar" (click)="completarTarea(tarea.id, $event)">
+          Completar
+        </ion-button>
       </ion-item>
     </ion-list>
   
@@ -42,6 +51,7 @@
             {{ tarea.estaCompletada ? 'Completada' : 'Sin Terminar' }}
           </p>
         </ion-label>
+          <ion-button class="boton-desmarcar" (click)="desmarcarTarea(tarea.id, $event)">Desmarcar</ion-button>
       </ion-item>
     </ion-list>
 
@@ -52,13 +62,14 @@
           <p>{{ tarea.descripcion }}</p>
           <p>{{ tarea.creadoEn | date:'dd/MM/yyyy HH:mm' }}</p>
           <p [ngClass]="{'completada': tarea.estaCompletada, 'no-completada': !tarea.estaCompletada}">
-            {{ tarea.estaCompletada ? 'Completada' : 'Sin terminar' }}
+            {{ tarea.estaCompletada ? 'Completada' : 'Sin Terminar' }}
           </p>
         </ion-label>
+          <ion-button class="boton-completar" (click)="completarTarea(tarea.id, $event)">Completar</ion-button>
       </ion-item>
     </ion-list>
 
-  <ion-button [routerLink]="'/tareas/crear-tarea'" class="boton-crear-tarea">
+  <ion-button class="boton-crear-tarea" [routerLink]="'/tareas/crear-tarea'" class="boton-crear-tarea">
     <ion-icon name="add"></ion-icon>
   </ion-button>
 </ion-content>

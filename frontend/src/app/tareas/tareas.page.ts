@@ -22,6 +22,7 @@ export class TareasPage implements OnInit {
     this.cargarTareas();
     this.cargarTareasCompletadas();
     this.cargarTareasNoCompletadas();
+    
     this.comunicacionService.tareaEditada$.subscribe({
       next: (tareaEditada) => {
         this.cargarTareas();
@@ -29,6 +30,7 @@ export class TareasPage implements OnInit {
         this.cargarTareasNoCompletadas();
       }
     });
+   
   }
 
   editarTarea(id: string) {
@@ -59,4 +61,48 @@ export class TareasPage implements OnInit {
   cambiarTab(tab: string) {
     this.tabActivo = tab;
   }
+
+  completarTarea(id: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.tareaService.completarTarea(id).subscribe({
+      next: (tareaCompletada) => {
+        console.log('Tarea completada:', tareaCompletada);
+        // Actualiza las listas localmente aquí
+        const tareaIndex = this.tareas.findIndex(tarea => tarea.id === id);
+        if (tareaIndex !== -1) {
+          this.tareas[tareaIndex].estaCompletada = true;
+          // Añade a completadas si no está ya
+          if (!this.tareasCompletadas.some(tarea => tarea.id === id)) {
+            this.tareasCompletadas.push(this.tareas[tareaIndex]);
+          }
+          // Remueve de no completadas si está
+          this.tareasNoCompletadas = this.tareasNoCompletadas.filter(tarea => tarea.id !== id);
+        }
+      },
+      error: (error) => console.error('Error al completar la tarea', error)
+    });
+  }
+  
+  desmarcarTarea(id: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.tareaService.desmarcarTarea(id).subscribe({
+      next: (tareaDesmarcada) => {
+        console.log('Tarea desmarcada:', tareaDesmarcada);
+        // Actualiza las listas localmente aquí
+        const tareaIndex = this.tareas.findIndex(tarea => tarea.id === id);
+        if (tareaIndex !== -1) {
+          this.tareas[tareaIndex].estaCompletada = false;
+          // Añade a completadas si no está ya
+          if (!this.tareasNoCompletadas.some(tarea => tarea.id === id)) {
+            this.tareasNoCompletadas.push(this.tareas[tareaIndex]);
+          }
+          // Remueve de no completadas si está
+          this.tareasCompletadas = this.tareasCompletadas.filter(tarea => tarea.id !== id);
+        }
+      },
+      error: (error) => console.error('Error al desmarcar la tarea', error)
+    });
+  }
+  
+  
 }
