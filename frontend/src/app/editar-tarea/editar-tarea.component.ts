@@ -49,5 +49,18 @@ export class EditarTareaComponent implements OnInit {
   cancelarEdicion() {
     this.router.navigate(['/tareas']);
   }
+
+  eliminarTarea() {
+    this.tareaService.eliminarTareaPorId(this.id).subscribe({
+      next: () => {
+        console.log('Tarea eliminada con éxito');
+        this.router.navigate(['/tareas']); 
+      },
+      error: (error) => {
+        console.error('Error al eliminar la tarea', error);
+      }
+    });
+  }
+  
   
 }
