@@ -14,9 +14,9 @@ import { EditarTareaModule } from '../editar-tarea/editar-tarea.module';
     CommonModule,
     FormsModule,
     IonicModule,
+    TareasPageRoutingModule,
     CrearTareaFormModule,
-    EditarTareaModule,
-    TareasPageRoutingModule
+    EditarTareaModule
   ],
   declarations: [TareasPage]
 })

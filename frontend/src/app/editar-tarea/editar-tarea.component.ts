@@ -39,7 +39,7 @@ export class EditarTareaComponent implements OnInit {
       next: (tareaEditada) => {
         console.log('Tarea editada con éxito', tareaEditada);
         this.comunicacionService.tareaEditada(tareaEditada);
-        this.router.navigate(['/tareas']);
+        this.router.navigate(['/main/tareas']);
       },
       error: (error) => {
         console.error('Error al editar la tarea', error);
@@ -47,14 +47,14 @@ export class EditarTareaComponent implements OnInit {
     });
   }
   cancelarEdicion() {
-    this.router.navigate(['/tareas']);
+    this.router.navigate(['/main/tareas']);
   }
 
   eliminarTarea() {
     this.tareaService.eliminarTareaPorId(this.id).subscribe({
       next: () => {
         console.log('Tarea eliminada con éxito');
-        this.router.navigate(['/tareas']); 
+        this.router.navigate(['/main/tareas']); 
       },
       error: (error) => {
         console.error('Error al eliminar la tarea', error);

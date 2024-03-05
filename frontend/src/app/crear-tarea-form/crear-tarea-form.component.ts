@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./crear-tarea-form.component.scss'],
 })
 export class CrearTareaFormComponent {
-  @Output() tareaCreada: EventEmitter<any> = new EventEmitter(); // Ajusta según tu modelo de Tarea
+  @Output() tareaCreada: EventEmitter<any> = new EventEmitter(); 
 
   titulo: string = '';
   descripcion: string = '';
@@ -27,7 +27,7 @@ export class CrearTareaFormComponent {
       next: (tarea) => {
         console.log('Tarea creada con éxito');
         this.tareaCreada.emit(tarea);
-        this.router.navigate(['/tareas']);
+        this.router.navigate(['/main/tareas']);
       },
       error: (error) => {
         console.error('Error al crear la tarea', error);
@@ -35,6 +35,6 @@ export class CrearTareaFormComponent {
     });
   }
   cancelarCreacion() {
-    this.router.navigate(['/tareas']);
+    this.router.navigate(['/main/tareas']);
   }
 }

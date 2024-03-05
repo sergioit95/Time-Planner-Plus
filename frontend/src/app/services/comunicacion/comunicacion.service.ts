@@ -12,7 +12,5 @@ export class ComunicacionService {
     this.tareaEditadaSource.next(tarea);
   }
 
-  notificarTareaEditada() {
-    this.tareaEditadaSource.next(null);
-  }
+  
 }

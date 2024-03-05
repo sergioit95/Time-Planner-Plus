@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CrearSolicitudDeUsuario } from 'src/app/models/CrearSolicitudDeUsuario';
 import { RespuestaUsuarioJwt } from 'src/app/models/RespuestaUsuarioJwt';
@@ -10,7 +11,7 @@ import { RespuestaUsuarioJwt } from 'src/app/models/RespuestaUsuarioJwt';
 export class UsuarioService {
   private apiUrl = 'http://localhost:8081/autenticacion'; 
 
-  constructor(private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
 
   
@@ -31,5 +32,10 @@ export class UsuarioService {
   }
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/auth/login');
   }
 }

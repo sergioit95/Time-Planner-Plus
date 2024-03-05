@@ -34,7 +34,7 @@ export class TareasPage implements OnInit {
   }
 
   editarTarea(id: string) {
-    this.router.navigate(['/editar-tarea', id]);
+    this.router.navigate(['/main/editar-tarea', id]);
   }
   cargarTareas() {
     this.tareaService.listarTareas().subscribe(tareas => {

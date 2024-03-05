@@ -4,25 +4,21 @@ import { CrearTareaFormComponent } from './crear-tarea-form/crear-tarea-form.com
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'auth',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: '',
-    loadChildren: () => import('./registro/registro.module').then(m => m.RegistroPageModule)
+    path: 'main',
+    loadChildren: () => import('./main-tabs/main-tabs.module').then( m => m.MainTabsPageModule)
   },
   {
     path: '',
-    loadChildren: () => import('./tareas/tareas.module').then(m => m.TareasPageModule)
-  },
-  {
-    path: 'editar-tarea/:id',
-    loadChildren: () => import('./editar-tarea/editar-tarea.module').then(m => m.EditarTareaModule)
-  },
-  {
-    path: 'tareas/crear-tarea',
-    component: CrearTareaFormComponent
+    redirectTo: '/auth/login',
+    pathMatch: 'full'
   }
+  
+
+
 ];
 @NgModule({
   imports: [
