@@ -5,23 +5,39 @@
 </ion-header>
 
 <ion-content>
-  <form (submit)="registrar()">
+ 
+  <form (ngSubmit)="registrar()" #registroForm="ngForm">
     <ion-item>
       <ion-label position="floating">Nombre de Usuario</ion-label>
-      <ion-input [(ngModel)]="nombreUsuario" name="nombreUsuario" required></ion-input>
+      <ion-input [(ngModel)]="nombreUsuario" name="nombreUsuario" required #nombreUsuarioRef="ngModel"></ion-input>
     </ion-item>
+    <div *ngIf="nombreUsuarioRef.invalid && (nombreUsuarioRef.dirty || nombreUsuarioRef.touched)" class="error-message">
+      El nombre de usuario es requerido.
+    </div>
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input [(ngModel)]="contrasena" name="contrasena" type="password" required></ion-input>
+      <ion-input [(ngModel)]="contrasena" name="contrasena" type="password" required minlength="8" #contrasenaRef="ngModel"></ion-input>
     </ion-item>
+    <div *ngIf="contrasenaRef.errors?.['minlength'] && (contrasenaRef.dirty || contrasenaRef.touched)" class="error-message">
+      La contraseña debe tener al menos 8 caracteres.
+    </div>
+    <div *ngIf="contrasenaRef.invalid && (contrasenaRef.dirty || contrasenaRef.touched)" class="error-message">
+      La contraseña es requerida.
+    </div>
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input [(ngModel)]="nombre" name="nombre" required></ion-input>
+      <ion-input [(ngModel)]="nombre" name="nombre" required #nombreRef="ngModel"></ion-input>
     </ion-item>
+    <div *ngIf="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)" class="error-message">
+      El nombre es requerido.
+    </div>
     <ion-item>
       <ion-label position="floating">Apellidos</ion-label>
-      <ion-input [(ngModel)]="apellidos" name="apellidos" required></ion-input>
+      <ion-input [(ngModel)]="apellidos" name="apellidos" required #apellidosRef="ngModel"></ion-input>
     </ion-item>
+    <div *ngIf="apellidosRef.invalid && (apellidosRef.dirty || apellidosRef.touched)" class="error-message">
+      Los apellidos son requeridos.
+    </div>
     <ion-button type="submit" expand="block">Registrar</ion-button>
   </form>
   <p style="text-align: center; margin-top: 20px;">
