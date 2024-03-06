@@ -1,4 +1,4 @@
-# Aplicación para gestionar la productividad del dia a dia 
+# Aplicación para gestionar la productividad del día a día 
 Proyecto Fin de Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Multiplataforma.
 Realizado por Sergio García Herrera en Marzo de 2024.
 
