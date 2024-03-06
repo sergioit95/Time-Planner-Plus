@@ -36,6 +36,7 @@ Para manejar los datos en el frontend de la API Rest de este proyecto, hay que h
 **BackEnd**
 Yo he creado este script en MySQL que crea la base de datos, la borra si ya existe en el gestor de base de datos, crea las tablas Usuario y Tarea, con una relación de uno a muchos. 
 - Script:
+  
 DROP DATABASE IF EXISTS time_planner_plus;
 
 CREATE DATABASE time_planner_plus;
