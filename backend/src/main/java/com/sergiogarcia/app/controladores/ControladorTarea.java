@@ -53,7 +53,7 @@ public class ControladorTarea {
     }
 
     // Crear tarea
-    @PostMapping
+    @PostMapping("/crear-tarea")
     public ResponseEntity<RespuestaTarea> crearTarea(@RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) {
         try {
             Tarea tarea = servicioTarea.crearTarea(crearSolicitudDeTarea);
@@ -87,10 +87,11 @@ public class ControladorTarea {
 
     // Editar tarea
     @PutMapping("/{id}")
-    public ResponseEntity<Tarea> editarTarea(@PathVariable("id") UUID id, @RequestBody Tarea tarea) {
-        tarea.setId(id);
-        Optional<Tarea> tareaActualizada = servicioTarea.editarTarea(tarea);
-        return tareaActualizada.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Tarea> editarTarea(@PathVariable("id") UUID id, @RequestBody CrearSolicitudDeTarea crearSolicitudDeTarea) {
+       
+        return servicioTarea.editarTarea(id, crearSolicitudDeTarea)
+        		.map(tarea -> ResponseEntity.ok().body(tarea))
+        		.orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Eliminar tarea

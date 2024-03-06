@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="tabActivo" (ionChange)="cambiarTab(($event.detail.value ?? 'todas').toString())">
+    <ion-segment-button value="todas">
+      <ion-label>Todas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completadas">
+      <ion-label>Completadas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="no-completadas">
+      <ion-label>No Completadas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de todas las tareas -->
+    <ion-list *ngIf="tabActivo === 'todas'">
+      <ion-item *ngFor="let tarea of tareas" (click)="editarTarea(tarea.id)">
+        <ion-label>
+          <h2>{{ tarea.titulo }}</h2>
+          <p>{{ tarea.descripcion }}</p>
+          <p>{{ tarea.creadoEn | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p [ngClass]="{'completada': tarea.estaCompletada, 'no-completada': !tarea.estaCompletada}">
+            {{ tarea.estaCompletada ? 'Completada' : 'Sin Terminar' }}
+          </p>
+        </ion-label>
+         <!-- Botón Desmarcar para tareas completadas -->
+        <ion-button *ngIf="tarea.estaCompletada" class="boton-desmarcar" (click)="desmarcarTarea(tarea.id, $event)">
+          Desmarcar
+        </ion-button>
+
+        <!-- Botón Completar para tareas no completadas -->
+        <ion-button *ngIf="!tarea.estaCompletada" class="boton-completar" (click)="completarTarea(tarea.id, $event)">
+          Completar
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  
+
+    <ion-list *ngIf="tabActivo === 'completadas'">
+      <ion-item *ngFor="let tarea of tareasCompletadas" (click)="editarTarea(tarea.id)">
+        <ion-label>
+          <h2>{{ tarea.titulo }}</h2>
+          <p>{{ tarea.descripcion }}</p>
+          <p>{{ tarea.creadoEn | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p [ngClass]="{'completada': tarea.estaCompletada, 'no-completada': !tarea.estaCompletada}">
+            {{ tarea.estaCompletada ? 'Completada' : 'Sin Terminar' }}
+          </p>
+        </ion-label>
+          <ion-button class="boton-desmarcar" (click)="desmarcarTarea(tarea.id, $event)">Desmarcar</ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="tabActivo === 'no-completadas'">
+      <ion-item *ngFor="let tarea of tareasNoCompletadas" (click)="editarTarea(tarea.id)">
+        <ion-label>
+          <h2>{{ tarea.titulo }}</h2>
+          <p>{{ tarea.descripcion }}</p>
+          <p>{{ tarea.creadoEn | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p [ngClass]="{'completada': tarea.estaCompletada, 'no-completada': !tarea.estaCompletada}">
+            {{ tarea.estaCompletada ? 'Completada' : 'Sin Terminar' }}
+          </p>
+        </ion-label>
+          <ion-button class="boton-completar" (click)="completarTarea(tarea.id, $event)">Completar</ion-button>
+      </ion-item>
+    </ion-list>
+
+  <ion-button class="boton-crear-tarea" [routerLink]="'/main/tareas/crear-tarea'" class="boton-crear-tarea">
+    <ion-icon name="add"></ion-icon>
+  </ion-button>
+
+</ion-content>
+

@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class CrearSolicitudDeTarea {
 
 	private String titulo, descripcion;
-	
+	private Boolean estaCompletada;
 	
 
 }
