@@ -62,6 +62,9 @@ public class ServicioUsuario {
 				});
 	}
 	
+	public Usuario obtenerUsuarioPorId(UUID id) throws Exception {
+	    return repositorioUsuario.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado con el ID: " + id));
+	}
 	public void eliminarUsuarioPorId(UUID id) {
 		if(repositorioUsuario.existsById(id)) {
 			repositorioUsuario.deleteById(id);

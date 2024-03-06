@@ -22,9 +22,11 @@ public class RespuestaUsuarioJwt extends RespuestaUsuario{
 		apellidos = respuestaUsuario.getApellidos();
 	}
 	
-	public static RespuestaUsuarioJwt of (Usuario usuario, String token) {
-		RespuestaUsuarioJwt resultado = new RespuestaUsuarioJwt(RespuestaUsuario.deUsuario(usuario));
-		resultado.setToken(token);
-		return resultado;
-	}
+	  public static RespuestaUsuarioJwt of(Usuario usuario, String token) {
+	        RespuestaUsuario respuestaUsuario = RespuestaUsuario.deUsuario(usuario);
+	        RespuestaUsuarioJwt resultado = new RespuestaUsuarioJwt(respuestaUsuario);
+	        resultado.setToken(token);
+	        resultado.setId(usuario.getId().toString()); 
+	        return resultado;
+	    }
 }

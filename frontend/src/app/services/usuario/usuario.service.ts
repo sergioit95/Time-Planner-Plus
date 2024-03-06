@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +9,9 @@ import { RespuestaUsuarioJwt } from 'src/app/models/RespuestaUsuarioJwt';
   providedIn: 'root'
 })
 export class UsuarioService {
+
   private apiUrl = 'http://localhost:8081/autenticacion'; 
+  
 
   constructor(private router: Router, private http: HttpClient) {}
 
@@ -19,12 +21,31 @@ export class UsuarioService {
     return this.http.post<RespuestaUsuarioJwt>(`${this.apiUrl}/registro`, solicitud);
   }
 
-  editarUsuario(id: string, usuario: any): Observable<any> { 
-    return this.http.put(`${this.apiUrl}/perfil/${id}`, usuario);
+  editarUsuario(id: string, usuario: any): Observable<any> {
+    const url = `${this.apiUrl}/perfil/${id}`;
+    return this.http.put(url, usuario, { headers: this.getHeaders() });
   }
 
-  editarContrasena(id: string, nuevaContrasena: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/perfil/${id}/contrasena`, { nuevaContrasena });
+  editarContrasena(id: string, nuevaContrasena: any): Observable<any> {
+    const url = `${this.apiUrl}/perfil/${id}/contrasena`;
+    return this.http.put(url, { nuevaContrasena }, { headers: this.getHeaders() });
+  }
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+  }
+
+  
+  obtenerUsuarioPorId(id: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/perfil/${id}`, { headers: headers });
   }
 
   login(nombreUsuario: string, contrasena: string): Observable<RespuestaUsuarioJwt> {

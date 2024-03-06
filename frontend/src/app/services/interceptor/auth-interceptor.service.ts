@@ -6,11 +6,9 @@ import { UsuarioService } from '../usuario/usuario.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private usuarioService: UsuarioService) {} // Asume que tienes un servicio de autenticación
-
+  constructor(private usuarioService: UsuarioService) {} 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtén el token de autenticación de alguna manera (por ejemplo, del localStorage o de tu AuthService)
-    const authToken = this.usuarioService.getToken(); // Asume que tu AuthService tiene un método getToken()
+    const authToken = this.usuarioService.getToken(); 
 
     // Clona la solicitud original y añade la cabecera de autorización con el token
     const authReq = request.clone({

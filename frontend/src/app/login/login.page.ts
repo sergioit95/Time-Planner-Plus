@@ -23,15 +23,15 @@ export class LoginPage {
     this.usuarioService.login(this.nombreUsuario, this.contrasena).subscribe({
       next: (res: RespuestaUsuarioJwt) => {
         console.log('Login exitoso', res);
-        // Guarda el token en el localStorage
         localStorage.setItem('token', res.token);
-        // Redirige al usuario a otra página después del inicio de sesión
+        localStorage.setItem('userId', res.id); 
         this.router.navigate(['/main/tareas']);
       },
       error: (e: any) => {
         console.error('Error en el login', e);
       }
     });
+    
   }
 
 }

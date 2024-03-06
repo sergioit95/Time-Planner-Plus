@@ -78,8 +78,18 @@ public class ControladorUsuario {
    			return ResponseEntity.notFound().build();
    		}
    	}
-    
-    
+
+	@GetMapping("/perfil/{id}")
+	public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable(value = "id") UUID id) {
+	    try {
+	        Usuario usuario = servicioUsuario.obtenerUsuarioPorId(id);
+	        return ResponseEntity.ok().body(usuario);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	    }
+	}
+
+
     @PostMapping("/autenticacion/login")
     public ResponseEntity<RespuestaUsuarioJwt> login(@RequestBody RespuestaLogin respuestaLogin) {
 		Authentication authentication =
