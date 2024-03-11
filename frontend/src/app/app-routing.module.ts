@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { CrearTareaFormComponent } from './crear-tarea-form/crear-tarea-form.component';
 
 const routes: Routes = [
   {

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MainTabsPage } from './main-tabs.page';
-import { CrearTareaFormComponent } from '../crear-tarea-form/crear-tarea-form.component';
-import { LogoutComponent } from '../logout/logout.component';
+import { CrearTareaFormComponent } from '../components/crear-tarea-form/crear-tarea-form.component';
+import { LogoutComponent } from '../components/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -12,11 +12,11 @@ const routes: Routes = [
     children: [
       {
         path: 'tareas',
-        loadChildren: () => import('../tareas/tareas.module').then(m => m.TareasPageModule)
+        loadChildren: () => import('../pages/tareas/tareas.module').then(m => m.TareasPageModule)
       },
       {
         path: 'editar-tarea/:id',
-        loadChildren: () => import('../editar-tarea/editar-tarea.module').then(m => m.EditarTareaModule)
+        loadChildren: () => import('../components/editar-tarea/editar-tarea.module').then(m => m.EditarTareaModule)
       },
       {
         path: 'tareas/crear-tarea',
@@ -28,7 +28,7 @@ const routes: Routes = [
       },
       { 
         path: 'perfil', 
-        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilModule)
+        loadChildren: () => import('../components/perfil/perfil.module').then(m => m.PerfilModule)
       }
  
     ]
