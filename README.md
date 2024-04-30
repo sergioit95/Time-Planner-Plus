@@ -1,3 +1,4 @@
+(El proyecto lo hice con git de manera local, por lo cual no tengo las ramas creadas en github)
 # Aplicación para gestionar la productividad del día a día 
 Proyecto Fin de Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Multiplataforma.
 Realizado por Sergio García Herrera en Marzo de 2024.
